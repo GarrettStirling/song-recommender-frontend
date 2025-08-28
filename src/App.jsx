@@ -1,34 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import SpotifyAuth from './components/SpotifyAuth'
+import RecommendationPanel from './components/RecommendationPanel'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [accessToken, setAccessToken] = useState(null)
+  const [authError, setAuthError] = useState(null)
+
+  useEffect(() => {
+    // Check URL parameters for OAuth callback
+    const urlParams = new URLSearchParams(window.location.search)
+    const token = urlParams.get('access_token')
+    const success = urlParams.get('success')
+    const error = urlParams.get('error')
+
+    if (success && token) {
+      setAccessToken(token)
+      setIsAuthenticated(true)
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname)
+    } else if (error) {
+      setAuthError('Authentication failed. Please try again.')
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname)
+    }
+  }, [])
+
+  const handleAuthSuccess = (token) => {
+    setAccessToken(token)
+    setIsAuthenticated(true)
+    setAuthError(null)
+  }
+
+  const handleLogout = () => {
+    setAccessToken(null)
+    setIsAuthenticated(false)
+    setAuthError(null)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="App">
+      <header className="app-header">
+        <h1>🎵 AI Music Recommender</h1>
+        <p>Discover new music based on your Spotify listening history</p>
+      </header>
+
+      <main className="app-main">
+        {authError && (
+          <div className="error-message">
+            {authError}
+            <button onClick={() => setAuthError(null)}>Dismiss</button>
+          </div>
+        )}
+        
+        {!isAuthenticated ? (
+          <SpotifyAuth onAuthSuccess={handleAuthSuccess} />
+        ) : (
+          <RecommendationPanel 
+            accessToken={accessToken} 
+            onLogout={handleLogout}
+          />
+        )}
+      </main>
+    </div>
   )
 }
 

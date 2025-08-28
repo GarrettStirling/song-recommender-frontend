@@ -4,7 +4,74 @@
   padding: 2rem;
   text-align: center;
 }
+/* Clean, modern styling for the Song Recommender App */
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: #f6f8fa;
+  color: #222;
+}
 
+.app-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 32px 24px;
+}
+
+.recommendation-panel {
+  margin-bottom: 32px;
+}
+
+.recommendation-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.recommendation-list {
+  list-style: none;
+  padding: 0;
+}
+
+.recommendation-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.spotify-auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.spotify-button {
+  background: linear-gradient(90deg, #1db954 0%, #1ed760 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(30,217,96,0.12);
+}
+.spotify-button:hover {
+  background: linear-gradient(90deg, #1ed760 0%, #1db954 100%);
+}
+
+.error-message {
+  color: #e74c3c;
+  background: #fff0f0;
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin-top: 16px;
+  font-size: 0.95rem;
+}
 .logo {
   height: 6em;
   padding: 1.5em;

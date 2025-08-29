@@ -11,6 +11,31 @@
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  position: relative; /* For absolute positioning of toggle button */
+}
+
+.recommendations-header {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10;
+}
+
+.view-toggle-btn {
+  background: #333;
+  border: 1px solid #555;
+  border-radius: 8px;
+  color: #fff;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.view-toggle-btn:hover {
+  background: #444;
+  border-color: #666;
+  transform: translateY(-1px);
 }
 .controls-card {
   background: #222;
@@ -199,25 +224,117 @@
 
 .tracks-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Reduced from 250px to 200px */
+  gap: 0.8rem; /* Reduced gap from 1rem to 0.8rem */
   width: 100%;
 }
 
+/* New list view styles */
+.tracks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  align-items: flex-start;
+}
 
 .track-card {
   background: #181818;
-  border-radius: 12px;
-  padding: 0.7rem 0.7rem 0.7rem 0.7rem; /* Equal padding for centering */
+  border-radius: 10px; /* Slightly smaller border radius */
+  padding: 0.5rem; /* Reduced padding from 0.7rem to 0.5rem */
   box-shadow: 0 2px 8px rgba(0,0,0,0.12);
   transition: transform 0.2s ease, background-color 0.3s ease;
+  position: relative;
+}
+
+/* Grid view card (default) */
+.track-card-grid {
   width: 100%;
-  max-width: 220px;
+  max-width: 180px; /* Reduced from 220px to 180px */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center content vertically */
-  position: relative;
+  justify-content: center;
+}
+
+/* List view card */
+.track-card-list {
+  width: 100%;
+  max-width: 600px; /* Add max-width to make cards narrower */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.7rem;
+  margin: 0 auto; /* Center the narrower cards */
+}
+
+/* List view specific styles */
+.track-card-list .track-album-cover {
+  width: 60px;
+  height: 60px;
+  margin: 0 1rem 0 0; /* Consistent right margin for spacing */
+  flex-shrink: 0;
+}
+
+.track-card-list .track-info {
+  flex: 1;
+  text-align: left;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Ensure left alignment */
+  min-width: 0; /* Allow text to wrap/truncate properly */
+}
+
+.track-card-list .track-info h4 {
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+  text-align: left !important; /* Force left alignment */
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  align-self: flex-start; /* Ensure left alignment within flex container */
+}
+
+.track-card-list .track-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  text-align: left !important; /* Force left alignment */
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  align-self: flex-start; /* Ensure left alignment within flex container */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tracks-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+  
+  .track-card-list {
+    max-width: 100%; /* Full width on mobile */
+    padding: 0.5rem; /* Slightly smaller padding on mobile */
+  }
+  
+  .track-card-list .track-album-cover {
+    width: 50px;
+    height: 50px;
+    margin-right: 0.8rem; /* Consistent spacing on mobile */
+  }
+  
+  .track-card-list .track-info h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.1rem; /* Tighter spacing on mobile */
+  }
+  
+  .track-card-list .track-info p {
+    font-size: 0.8rem;
+  }
 }
 
 .track-card:hover {
@@ -229,14 +346,6 @@
 .track-card:hover .play-overlay {
   opacity: 1 !important;
   pointer-events: auto !important;
-}
-
-.track-card.playing {
-  background: #1db954 !important;
-}
-
-.track-card.playing:hover {
-  background: #1ed760 !important;
 }
 
 .play-overlay {
@@ -283,25 +392,26 @@
   transform: scale(1.1) !important;
 }
 
-.play-button.playing {
-  background: rgba(255, 107, 53, 0.95) !important;
-  border-color: #ff6b35 !important;
-}
-
 .play-button.disabled {
   opacity: 0.3 !important;
   cursor: not-allowed !important;
   pointer-events: none !important;
 }
 .track-album-cover {
-  width: 120px;
-  height: 120px;
-  margin-top: 0.5rem;  /* Add top margin to center content */
-  margin-bottom: 0.7rem;
+  width: 100px; /* Reduced from 120px to 100px */
+  height: 100px; /* Reduced from 120px to 100px */
+  margin-top: 0.4rem; /* Reduced margin */
+  margin-bottom: 0.5rem; /* Reduced margin */
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative; /* Allow absolute positioning of play button */
+  position: relative;
+}
+
+/* Grid view album cover keeps default margins */
+.track-card-grid .track-album-cover {
+  margin-top: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 .track-album-cover img {
   width: 100%;
@@ -463,11 +573,6 @@
   transform: translateX(-50%) scale(1.1) !important;
 }
 
-.play-button-simple.playing {
-  opacity: 1 !important;
-  background: rgba(255, 69, 0, 0.9) !important;
-}
-
 .play-button-simple.disabled {
   background: rgba(128, 128, 128, 0.6) !important;
   cursor: not-allowed !important;
@@ -527,10 +632,136 @@
   animation: pulse 2s infinite;
 }
 
+.play-button-overlay.loading {
+  opacity: 1 !important;
+  background: rgba(255, 165, 0, 0.9) !important;
+  animation: spin 1s linear infinite;
+}
+
+.play-button-overlay.error {
+  opacity: 1 !important;
+  background: rgba(220, 53, 69, 0.9) !important;
+  animation: none;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.1); }
   100% { transform: scale(1); }
+}
+
+/* Now Playing Popup */
+.now-playing-popup {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  min-width: 300px;
+  max-width: 400px;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.now-playing-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.now-playing-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.now-playing-cover {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #333;
+}
+
+.now-playing-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.now-playing-track {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.now-playing-artist {
+  color: #b3b3b3;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.now-playing-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.now-playing-play-btn,
+.now-playing-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.now-playing-play-btn:hover {
+  background: rgba(29, 185, 84, 0.8);
+  border-color: #1db954;
+  transform: scale(1.05);
+}
+
+.now-playing-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
 }
 
 /* Remove the orange no-preview styling since all buttons are now green */

@@ -1,67 +1,56 @@
 import React, { useState } from 'react';
 import './RecommendationControls.css';
 
-const RecommendationControls = ({ onGenerateRecommendations, isLoading, numRecommendations, setNumRecommendations, collectionInfo }) => {
+const RecommendationControls = ({ onGenerateRecommendations, isLoading, numRecommendations, setNumRecommendations, collectionInfo, generationCount, cachedCount = 0, onControlsChange }) => {
+  // Simplified controls - only keep one meaningful slider for discovery focus
   const [controls, setControls] = useState({
-    energy: 50,         // 0=chill, 100=energetic
-    instrumentalness: 50 // 0=vocal, 100=instrumental
+    discovery_focus: 50  // 0=mainstream, 100=underground/indie
   });
 
   const handleSliderChange = (controlType, value) => {
-    setControls(prev => ({
-      ...prev,
+    const newControls = {
+      ...controls,
       [controlType]: parseInt(value)
-    }));
+    };
+    setControls(newControls);
+    
+    // Notify parent that controls have changed so it can reset cache
+    if (onControlsChange) {
+      onControlsChange(newControls);
+    }
   };
 
   const handleGenerate = () => {
-    onGenerateRecommendations(controls);
+    // Convert discovery_focus to energy for backend compatibility
+    const backendPreferences = {
+      energy: controls.discovery_focus  // Map discovery focus to energy parameter
+    };
+    onGenerateRecommendations(backendPreferences);
   };
 
   return (
     <div className="recommendation-controls">
       <h3>Personalized Recommendations</h3>
       <p className="controls-description">
-        Fine-tune your music taste preferences using analysis of your listening history
+        Discover new music based on your listening history and preferences
       </p>
       
       <div className="controls-grid">
-
-  {/* Popularity slider removed as requested */}
-
         <div className="control-group">
           <label className="control-label">
-            Energy
+            Discovery Focus
           </label>
           <input
             type="range"
             min="0"
             max="100"
-            value={controls.energy}
-            onChange={(e) => handleSliderChange('energy', e.target.value)}
-            className="control-slider energy-slider"
+            value={controls.discovery_focus}
+            onChange={(e) => handleSliderChange('discovery_focus', e.target.value)}
+            className="control-slider discovery-slider"
           />
           <div className="slider-labels">
-            <span>Chill</span>
-            <span>High Energy</span>
-          </div>
-        </div>
-
-        <div className="control-group">
-          <label className="control-label">
-            Instrumentalness
-          </label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={controls.instrumentalness}
-            onChange={(e) => handleSliderChange('instrumentalness', e.target.value)}
-            className="control-slider instrumental-slider"
-          />
-          <div className="slider-labels">
-            <span>Vocal Heavy</span>
-            <span>Instrumental</span>
+            <span>Mainstream</span>
+            <span>Underground</span>
           </div>
         </div>
       </div>
@@ -76,13 +65,15 @@ const RecommendationControls = ({ onGenerateRecommendations, isLoading, numRecom
             <>
               <span className="loading-spinner"></span>
               {collectionInfo ? 
-                `Analyzing ${collectionInfo.total_saved_tracks.toLocaleString()} tracks...` : 
+                `Analyzing ${collectionInfo.total_saved_tracks.toLocaleString()} saved tracks...` : 
                 'Analyzing your music...'
               }
             </>
           ) : (
             <>
-              Generate Recommendations
+              {generationCount === 0 ? 'Generate Recommendations' : 
+               cachedCount >= numRecommendations ? 'Get Next Batch (Instant)' : 
+               'Generate New Variations'}
             </>
           )}
         </button>

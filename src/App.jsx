@@ -42,8 +42,7 @@ function App() {
   return (
     <div className="App">
       <header className="app-header">
-        <h1>🎵 AI Music Recommender</h1>
-        <p>Discover new music based on your Spotify listening history</p>
+        <h1>Music Recommender</h1>
       </header>
 
       <main className="app-main">

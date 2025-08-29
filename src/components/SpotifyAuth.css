@@ -1,0 +1,109 @@
+
+.spotify-auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 2rem;
+  background: #181818;
+}
+
+
+.auth-card {
+  background: #222;
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.spotify-logo img {
+  background: #282828; /* lighter than site BG, not green */
+  color: #1db954;
+  border: 1.5px solid #1db954;
+  border-radius: 18px;
+  padding: 0.3rem 1.2rem;
+  font-size: 1rem;
+  font-family: monospace;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  margin: 0;
+  min-width: 0;
+  width: fit-content;
+  max-width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+.auth-card p {
+  color: #ccc;
+  background: #333;
+  color: #1ed760;
+  line-height: 1.5;
+}
+  background: #444;
+.permissions-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.permissions-list li {
+  color: #1db954;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.spotify-login-btn {
+  background: #1db954;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.spotify-login-btn:hover {
+  background: #1ed760;
+}
+
+.spotify-login-btn {
+  background: #282828;
+  color: #fff;
+  border: 1.5px solid #fff;
+  border-radius: 18px;
+  padding: 0.3rem 1.2rem;
+  font-size: 1rem;
+  font-family: monospace;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  margin: 0;
+  min-width: 0;
+  width: fit-content;
+  max-width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+.spotify-login-btn:hover {
+  background: #333;
+  color: #1ed760;
+  border-color: #1ed760;
+}
+.spotify-login-btn:disabled {
+  background: #444;
+  color: #888;
+  border-color: #888;
+  cursor: not-allowed;
+}

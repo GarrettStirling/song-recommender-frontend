@@ -1,0 +1,568 @@
+.recommendations-list-outer {
+  background: #222;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  padding: 2rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.controls-card {
+  background: #222;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  padding: 2rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.generate-btn-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.generate-btn {
+  background: linear-gradient(90deg, #1db954 0%, #1ed760 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.generate-btn:disabled {
+  background: #444;
+  cursor: not-allowed;
+}
+
+.spotify-login-btn.secondary {
+  background: linear-gradient(90deg, #555 0%, #666 100%);
+  font-size: 0.9rem;
+  padding: 0.8rem 1.5rem;
+}
+
+.spotify-login-btn.secondary:hover:not(:disabled) {
+  background: linear-gradient(90deg, #666 0%, #777 100%);
+}
+
+.dropdown-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.dropdown-label {
+  color: #ccc;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.dropdown-select {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #444;
+  background: #181818;
+  color: #fff;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 220px;
+  margin-bottom: 0.5rem;
+}
+
+.recommendation-panel {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  background: #181818;
+  color: #fff;
+}
+
+.logout-btn.minimal {
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: normal;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  font-family: 'Courier New', Consolas, Monaco, monospace;
+}
+
+.logout-btn.minimal:hover {
+  color: #ccc;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+
+.panel-header h2 {
+  color: #fff;
+  margin: 0;
+  text-align: center;
+}
+
+.controls {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.control-group label {
+  font-weight: bold;
+  color: #333;
+}
+
+.control-group select {
+  padding: 0.5rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.generate-btn {
+  background: #1db954;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.generate-btn:hover {
+  background: #1ed760;
+}
+
+.generate-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.recommendations-list {
+  margin-top: 2rem;
+}
+
+
+.recommendations-list h3 {
+  color: #fff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+
+.tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+
+.track-card {
+  background: #181818;
+  border-radius: 12px;
+  padding: 0.7rem 0.7rem 0.7rem 0.7rem; /* Equal padding for centering */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  width: 100%;
+  max-width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center content vertically */
+  position: relative;
+}
+
+.track-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  background: #333 !important;
+}
+
+.track-card:hover .play-overlay {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.track-card.playing {
+  background: #1db954 !important;
+}
+
+.track-card.playing:hover {
+  background: #1ed760 !important;
+}
+
+.play-overlay {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+  pointer-events: none;
+  width: 60px;
+  height: 60px;
+}
+
+.track-card:hover .play-overlay {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.play-button {
+  background: rgba(29, 185, 84, 0.95) !important;
+  border: 3px solid #fff !important;
+  border-radius: 8px !important;
+  width: 60px !important;
+  height: 60px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #fff !important;
+  font-size: 1.6rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  backdrop-filter: blur(4px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 1001 !important;
+}
+
+.play-button:hover {
+  background: rgba(30, 215, 96, 1) !important;
+  border-color: #1ed760 !important;
+  transform: scale(1.1) !important;
+}
+
+.play-button.playing {
+  background: rgba(255, 107, 53, 0.95) !important;
+  border-color: #ff6b35 !important;
+}
+
+.play-button.disabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+.track-album-cover {
+  width: 120px;
+  height: 120px;
+  margin-top: 0.5rem;  /* Add top margin to center content */
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Allow absolute positioning of play button */
+}
+.track-album-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.album-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #444;
+  border-radius: 8px;
+}
+
+.track-number {
+  background: #1db954;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+
+.track-info h4.track-name {
+  margin: 0 0 0.3rem 0;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: bold;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+}
+
+.track-info h4.track-name.clickable {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.track-info h4.track-name.clickable:hover {
+  color: #1db954;
+  text-decoration: underline;
+}
+
+.track-info p {
+  margin: 0.15rem 0;
+  color: #ccc;
+  font-size: 0.85rem;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+}
+
+.track-artist {
+  color: #ccc !important;
+  font-weight: normal;
+  text-align: center;
+}
+
+.track-artist.clickable {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.track-artist.clickable:hover {
+  color: #1db954 !important;
+  text-decoration: underline;
+}
+
+
+.track-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.7rem;
+  gap: 0.5rem;
+}
+
+
+.popularity {
+  font-size: 0.8rem;
+  color: #ff6b35;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+
+.spotify-play-btn {
+  background: #1db954;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', Consolas, Monaco, monospace;
+}
+
+.spotify-play-btn:hover {
+  background: #1ed760;
+  transform: scale(1.05);
+}
+
+.audio-btn {
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-left: 0.3rem;
+}
+.audio-btn:hover {
+  background: #666;
+}
+.track-actions audio {
+  margin-top: 0.3rem;
+  width: 180px;
+}
+
+/* Simplified play button styles */
+.play-button-simple {
+  position: absolute !important;
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: rgba(29, 185, 84, 0.9) !important;
+  border: none !important;
+  border-radius: 50% !important;
+  width: 50px !important;
+  height: 50px !important;
+  color: white !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 1000 !important;
+  pointer-events: auto !important;
+  transition: all 0.3s ease !important;
+  opacity: 0 !important;
+}
+
+.track-card:hover .play-button-simple {
+  opacity: 1 !important;
+}
+
+.play-button-simple:hover {
+  background: rgba(29, 185, 84, 1) !important;
+  transform: translateX(-50%) scale(1.1) !important;
+}
+
+.play-button-simple.playing {
+  opacity: 1 !important;
+  background: rgba(255, 69, 0, 0.9) !important;
+}
+
+.play-button-simple.disabled {
+  background: rgba(128, 128, 128, 0.6) !important;
+  cursor: not-allowed !important;
+}
+
+.play-button-simple.no-preview {
+  background: rgba(255, 165, 0, 0.9) !important; /* Orange for no preview */
+}
+
+.play-button-simple.no-preview:hover {
+  background: rgba(255, 165, 0, 1) !important;
+  transform: translateX(-50%) scale(1.1) !important;
+}
+
+.play-button-simple.youtube-only {
+  background: rgba(255, 0, 0, 0.9) !important; /* Red for YouTube */
+}
+
+.play-button-simple.youtube-only:hover {
+  background: rgba(255, 0, 0, 1) !important;
+  transform: translateX(-50%) scale(1.1) !important;
+}
+
+/* Overlay play button in top left corner of album cover */
+.play-button-overlay {
+  position: absolute !important;
+  top: 6px !important;
+  left: 6px !important;
+  background: rgba(29, 185, 84, 0.9) !important;
+  border: none !important;
+  border-radius: 50% !important;
+  width: 30px !important;
+  height: 30px !important;
+  color: white !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 10 !important;
+  transition: all 0.3s ease !important;
+  opacity: 0 !important;
+}
+
+.track-card:hover .play-button-overlay {
+  opacity: 1 !important;
+}
+
+.play-button-overlay:hover {
+  background: rgba(29, 185, 84, 1) !important;
+  transform: scale(1.15) !important;
+}
+
+.play-button-overlay.playing {
+  opacity: 1 !important;
+  background: rgba(29, 185, 84, 0.9) !important;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Remove the orange no-preview styling since all buttons are now green */
+.play-button-simple.no-preview {
+  background: rgba(29, 185, 84, 0.9) !important; /* Green for all buttons */
+}
+
+.play-button-simple.no-preview:hover {
+  background: rgba(29, 185, 84, 1) !important;
+  transform: translateX(-50%) scale(1.1) !important;
+}
+
+/* Logout button positioning */
+.logout-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 100;
+}
+
+@media (max-width: 768px) {
+  .logout-container {
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+}
+
+.recommendation-panel {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  position: relative;
+}

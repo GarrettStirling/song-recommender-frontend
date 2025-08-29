@@ -566,3 +566,75 @@
   padding: 1rem;
   position: relative;
 }
+
+/* Loading container - compact inline design */
+.recommendation-panel .loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  text-align: center;
+  animation: none !important; /* Disable any inherited animations */
+}
+
+.recommendation-panel .loading-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: none !important;
+}
+
+.recommendation-panel .spinner-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top: 2px solid #1ed760;
+  border-radius: 50%;
+  animation: spinSmall 1s linear infinite; /* Added spinning animation */
+  flex-shrink: 0; /* Prevent spinner from shrinking */
+}
+
+/* Keyframes for small spinner */
+@keyframes spinSmall {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.recommendation-panel .loading-text {
+  color: white;
+  font-size: 14px;
+  font-weight: normal;
+  animation: none !important;
+  transform: none !important;
+  white-space: nowrap; /* Keep text on one line */
+}
+
+/* Legacy loading spinner styles - keep for backward compatibility but override */
+.recommendation-panel .loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  animation: none !important; /* Disable any inherited animations */
+}
+
+.recommendation-panel .loading-spinner .spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top: 2px solid #1ed760;
+  border-radius: 50%;
+  margin: 0 auto 1rem auto;
+  animation: none !important; /* Disable spinning animation */
+  /* Static indicator instead of spinner */
+  background: linear-gradient(135deg, #1ed760 0%, #1db954 100%);
+  border: none;
+}
+
+.recommendation-panel .loading-spinner p,
+.recommendation-panel .loading-spinner div {
+  animation: none !important; /* Ensure text doesn't spin */
+  transform: none !important; /* Remove any transforms */
+}

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import './RecommendationControls.css';
 
-const RecommendationControls = ({ onGenerateRecommendations, isLoading, numRecommendations, setNumRecommendations }) => {
+const RecommendationControls = ({ onGenerateRecommendations, isLoading, numRecommendations, setNumRecommendations, collectionInfo }) => {
   const [controls, setControls] = useState({
-    popularity: 50,     // 0=underground, 100=mainstream
     energy: 50,         // 0=chill, 100=energetic
     instrumentalness: 50 // 0=vocal, 100=instrumental
   });
@@ -27,23 +26,8 @@ const RecommendationControls = ({ onGenerateRecommendations, isLoading, numRecom
       </p>
       
       <div className="controls-grid">
-        <div className="control-group">
-          <label className="control-label">
-            Popularity
-          </label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={controls.popularity}
-            onChange={(e) => handleSliderChange('popularity', e.target.value)}
-            className="control-slider popularity-slider"
-          />
-          <div className="slider-labels">
-            <span>Underground</span>
-            <span>Mainstream</span>
-          </div>
-        </div>
+
+  {/* Popularity slider removed as requested */}
 
         <div className="control-group">
           <label className="control-label">
@@ -91,7 +75,10 @@ const RecommendationControls = ({ onGenerateRecommendations, isLoading, numRecom
           {isLoading ? (
             <>
               <span className="loading-spinner"></span>
-              Analyzing Your Taste...
+              {collectionInfo ? 
+                `Analyzing ${collectionInfo.total_saved_tracks.toLocaleString()} tracks...` : 
+                'Analyzing your music...'
+              }
             </>
           ) : (
             <>

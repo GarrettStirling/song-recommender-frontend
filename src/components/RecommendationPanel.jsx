@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './RecommendationPanel.css'
 import RecommendationControls from './RecommendationControls'
 
@@ -8,42 +8,45 @@ const RecommendationPanel = ({ accessToken, onLogout }) => {
   const [numRecommendations, setNumRecommendations] = useState(30)
   const [currentlyPlaying, setCurrentlyPlaying] = useState(null)
   const [audioElements, setAudioElements] = useState({})
+  const [collectionInfo, setCollectionInfo] = useState(null)
+  const [showCollectionWarning, setShowCollectionWarning] = useState(false)
 
-  const generateRecommendations = async () => {
-    setIsLoading(true)
-    
+  // Check collection size when component mounts
+  useEffect(() => {
+    if (accessToken) {
+      checkCollectionSize()
+    }
+  }, [accessToken])
+
+  const checkCollectionSize = async () => {
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/recommendations/search-based-discovery?token=${accessToken}&n_recommendations=${numRecommendations}`
-      )
-      
-      if (!response.ok) {
-        throw new Error('Failed to get recommendations')
+      const response = await fetch(`http://127.0.0.1:8000/recommendations/collection-size?token=${accessToken}`)
+      if (response.ok) {
+        const data = await response.json()
+        setCollectionInfo(data)
+        if (data.warning) {
+          setShowCollectionWarning(true)
+        }
       }
-      
-      const data = await response.json()
-      setRecommendations(data.recommendations || [])
     } catch (error) {
-      console.error('Error getting recommendations:', error)
-      alert('Failed to get recommendations. Please try again.')
-    } finally {
-      setIsLoading(false)
+      console.log('Could not check collection size:', error)
     }
   }
 
-  const generateMLRecommendations = async (userControls) => {
+  const generateRecommendations = async (userControls = {}) => {
     setIsLoading(true)
+    setShowCollectionWarning(false) // Hide warning when starting
     
     try {
+      // Show progress message for feature analysis
+      console.log(`Starting feature analysis of your musical taste...`)
+      console.log(`User preferences:`, userControls)
+      if (collectionInfo && collectionInfo.category === 'power_user') {
+        console.log(`Large collection detected (${collectionInfo.total_saved_tracks.toLocaleString()} songs) - this may take a moment...`)
+      }
+      
       const response = await fetch(
-        `http://127.0.0.1:8000/recommendations/ml-recommendations?token=${accessToken}&n_recommendations=${numRecommendations}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userControls)
-        }
+        `http://127.0.0.1:8000/recommendations/search-based-discovery?token=${accessToken}&n_recommendations=${numRecommendations}`
       )
       
       if (!response.ok) {
@@ -51,12 +54,25 @@ const RecommendationPanel = ({ accessToken, onLogout }) => {
       }
       
       const data = await response.json()
+      
+      // Log ML analysis results to browser console
+      if (data.execution_time_seconds) {
+        console.log(`🚀 ML ANALYSIS COMPLETE: ${data.execution_time_seconds.toFixed(2)}s`)
+      }
+      if (data.algorithm) {
+        console.log(`🧠 ALGORITHM USED: ${data.algorithm}`)
+      }
+      if (data.user_profile) {
+        console.log(`🎯 YOUR MUSICAL TASTE PROFILE:`, data.user_profile.preferences)
+      }
+      if (data.total_candidates_analyzed) {
+        console.log(`� ANALYZED ${data.total_candidates_analyzed} candidate tracks with ML`)
+      }
+      
       setRecommendations(data.recommendations || [])
-      console.log('ML Recommendations generated:', data.recommendations?.length)
-      console.log('User profile:', data.user_profile)
     } catch (error) {
       console.error('Error getting ML recommendations:', error)
-      alert('Failed to get recommendations. Please try again.')
+      alert('Failed to get ML recommendations. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -118,17 +134,52 @@ const RecommendationPanel = ({ accessToken, onLogout }) => {
         </button>
       </div>
 
-      {/* ML Recommendation Controls */}
+      {/* Collection Size Warning - Moved above and made minimal */}
+      {showCollectionWarning && collectionInfo && collectionInfo.warning && (
+        <div className="collection-warning-minimal" style={{
+          background: '#2d2d2d',
+          color: '#fff',
+          padding: '12px 16px',
+          margin: '0 0 16px 0',
+          borderRadius: '8px',
+          border: '2px solid #ff6b35',
+          fontSize: '14px'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span>Large collection detected ({collectionInfo.total_saved_tracks?.toLocaleString()} songs) - processing may take 15-25 seconds</span>
+            <button 
+              onClick={() => setShowCollectionWarning(false)}
+              style={{
+                background: 'transparent',
+                border: '1px solid #666',
+                color: '#fff',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '12px'
+              }}
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Recommendation Controls */}
       <RecommendationControls 
-        onGenerateRecommendations={generateMLRecommendations}
+        onGenerateRecommendations={generateRecommendations}
         isLoading={isLoading}
         numRecommendations={numRecommendations}
         setNumRecommendations={setNumRecommendations}
+        collectionInfo={collectionInfo}
       />
 
       {isLoading && (
-        <div className="loading-spinner">
-          <div className="spinner"></div>
+        <div className="loading-container">
+          <div className="loading-content">
+            <div className="spinner-small"></div>
+            <span className="loading-text">Processing...</span>
+          </div>
         </div>
       )}
       {!isLoading && recommendations.length > 0 && (
